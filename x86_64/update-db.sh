@@ -17,11 +17,9 @@ echo "Building the repo database."
 echo "###########################"
 
 ## Arch: x86_64
-if [ -f "archfiery_repo*" ]; then
-  rm archfiery_repo*
+if [ -f "archfiery_repo"* ]; then
+  rm *.db *.db.sig *.db.tar.gz *.db.tar.gz.sig *.files *.files.sig *.files.tar.gz *.files.tar.gz.sig
 fi
-
-rm archfiery_repo*
 
 echo "###################################"
 echo "Building for architecture 'x86_64'."
@@ -31,47 +29,48 @@ echo "###################################"
 ## -s: signs the packages
 ## -n: only add new packages not already in database
 ## -R: remove old package files when updating their entry
-repo-add -s -n archfiery_repo.db.tar.gz *.pkg.tar.*
+repo-add --verify --sign -R archfiery_repo.db.tar.gz *.pkg.tar.zst
 
 # Removing the symlinks.
-# echo "###################################"
-# echo "       Removing the symlinks.      "
-# echo "###################################"
-
-# files=(
-  # "archfiery_repo.db*"
-  # "archfiery_repo.files*"
-# )
-
-# for file in "${files[@]}"; do
-#   if [ -f "$file" ]; then
-#     echo "Removing $file"
-#     rm "$file"
-#   fi
-# done
+#echo "###################################"
+#echo "       Removing the symlinks.      "
+#echo "###################################"
+#
+#files=(
+# "archfiery_repo.db*"
+# "archfiery_repo.files*"
+#)
+#
+#for file in "${files[@]}"; do
+#  if [ -f "$file" ]; then
+#    echo "Removing $file"
+#    rm "$file"
+#  fi
+#done
 
 # Renaming the tar.gz files without the extension.
-# echo "################################################"
-# echo "Renaming the tar.gz files without the extension."
-# echo "################################################"
-
-# files=(
-#   "archfiery_repo.db.tar.gz:archfiery_repo.db"
-#   "archfiery_repo.db.tar.gz.sig:archfiery_repo.db.sig"
-#   "archfiery_repo.files.tar.gz:archfiery_repo.files"
-#   "archfiery_repo.files.tar.gz.sig:archfiery_repo.files.sig"
-# )
-
-# for file in "${files[@]}"; do
-#   old_name=$(echo "$file" | cut -d: -f1)
-#   new_name=$(echo "$file" | cut -d: -f2)
-
-#   if [ -f "$old_name" ]; then
-#     echo "Renaming $old_name to $new_name"
-#     mv "$old_name" "$new_name"
-#   fi
-# done
+#echo "################################################"
+#echo "Renaming the tar.gz files without the extension."
+#echo "################################################"
+#
+#files=(
+#  "archfiery_repo.db.tar.gz:archfiery_repo.db"
+#  "archfiery_repo.db.tar.gz.sig:archfiery_repo.db.sig"
+#  "archfiery_repo.files.tar.gz:archfiery_repo.files"
+#  "archfiery_repo.files.tar.gz.sig:archfiery_repo.files.sig"
+#)
+#
+#for file in "${files[@]}"; do
+#  old_name=$(echo "$file" | cut -d: -f1)
+#  new_name=$(echo "$file" | cut -d: -f2)
+#
+#  if [ -f "$old_name" ]; then
+#    echo "Renaming $old_name to $new_name"
+#    mv "$old_name" "$new_name"
+#  fi
+#done
 
 echo "#######################################"
 echo "Packages in the repo have been updated!"
 echo "#######################################"
+
