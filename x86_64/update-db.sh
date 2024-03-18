@@ -64,7 +64,18 @@ echo "###################################"
 ## -s: signs the packages
 ## -n: only add new packages not already in database
 ## -R: remove old package files when updating their entry
-repo-add --verify --sign -R archfiery_repo.db.tar.gz *.pkg.tar.zst
+
+if [[ ! -f "*.pkg.tar.zst" ]]; then
+  repo-add --verify --sign archfiery_repo.db.tar.gz *.pkg.tar.zst
+fi
+
+if [[ ! -f "*.pkg.tar.xz" ]]; then
+  repo-add --verify --sign archfiery_repo.db.tar.gz *.pkg.tar.xz
+fi
+
+if [[ ! -f "*.pkg.tar.gz" ]]; then
+  repo-add --verify --sign archfiery_repo.db.tar.gz *.pkg.tar.gz
+fi
 
 # Removing the symlinks.
 echo "######################"
